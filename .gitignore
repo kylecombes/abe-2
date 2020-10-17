@@ -1,0 +1,18 @@
+# Node
+node_modules
+
+# SSL
+*.cert
+*.key
+
+# Build artifacts
+dist/
+build/
+.next
+.snowpack
+
+# Dev env config
+.env
+.npmrc
+.idea
+
