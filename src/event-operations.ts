@@ -1,64 +1,6 @@
-import dotenv from 'dotenv';
-import { Sequelize, Model, DataTypes, Optional } from 'sequelize';
+import { EventModel } from './db/models/event';
 
-import { Event } from './types';
-
-// Load environment variables from a .env file, if present
-dotenv.config();
-
-const {
-  POSTGRES_DB: dbName,
-  POSTGRES_PASSWORD: dbPassword,
-  POSTGRES_USER: dbUsername,
-  POSTGRES_PORT: dbPort = '5432',
-  POSTGRES_HOST: dbHost = 'localhost',
-} = process.env;
-
-const sequelize = new Sequelize(
-  `postgres://${dbUsername}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`,
-);
-
-interface EventModelAttributes {
-  description?: string;
-  id: number;
-  title: string;
-}
-
-class EventModel
-  extends Model<EventModelAttributes, Optional<EventModelAttributes, 'id'>>
-  implements EventModelAttributes {
-  public id!: number;
-  public description!: string;
-  public title!: string;
-
-  // Timestamps
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-}
-EventModel.init(
-  {
-    description: DataTypes.STRING,
-    id: {
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.UUID,
-    },
-    title: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    },
-  },
-  { modelName: 'Event', sequelize },
-);
-
-export async function connect(): Promise<void> {
-  return sequelize.authenticate();
-}
-
-export async function init() {
-  await sequelize.drop();
-  await EventModel.sync();
-}
+import { Event, User } from './types';
 
 export async function getAll(): Promise<Event[]> {
   const events = await EventModel.findAll();
@@ -72,13 +14,14 @@ export async function getAll(): Promise<Event[]> {
   }));
 }
 
-export async function close(): Promise<void> {
-  return sequelize.close();
-}
-
-export async function save(data: Event): Promise<EventModel> {
+export async function save(data: Event, user: User): Promise<EventModel> {
   const event = EventModel.build({
+    createdBy: user.id,
     description: data.description,
+    endDate: typeof data.end === 'string' ? data.end : undefined,
+    endDateTime: typeof data.end === 'string' ? undefined : data.end,
+    startDate: typeof data.start === 'string' ? data.start : undefined,
+    startDateTime: typeof data.start === 'string' ? undefined : data.start,
     title: data.title,
   });
   return event.save();

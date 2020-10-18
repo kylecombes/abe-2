@@ -28,3 +28,7 @@ export function initializeAuth(app: express.Application): void {
   // Allow routes to get access to an authenticated user's info while still being publicly accessible
   passport.use(new AnonymousStrategy());
 }
+
+// Define authorization checks
+export const AuthOptional = passport.authenticate(['jwt', 'anonymous'], { session: false });
+export const AuthRequired = passport.authenticate('jwt', { session: false });
