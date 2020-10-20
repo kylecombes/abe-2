@@ -5,7 +5,7 @@ interface EventModelAttributes {
   description?: string;
   endDate?: string;
   endDateTime?: Date;
-  id: number;
+  id: string;
   startDate?: string;
   startDateTime?: Date;
   title: string;
@@ -18,7 +18,7 @@ export class EventModel
   public description!: string;
   public endDate!: string;
   public endDateTime!: Date;
-  public id!: number;
+  public id!: string;
   public startDate!: string;
   public startDateTime!: Date;
   public title!: string;

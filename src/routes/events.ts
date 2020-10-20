@@ -1,6 +1,8 @@
 import express from 'express';
+import validator from 'validator';
+
 import { AuthOptional, AuthRequired } from '../auth';
-import { save, getAll } from '../event-operations';
+import { save, getAll, getOne, deleteOne } from '../event-operations';
 import { User } from '../types';
 
 const router = express.Router();
@@ -10,6 +12,34 @@ router.get('/', AuthOptional, async (req, res) => {
   // TODO: Use req.user to get "private" results
   const events = await getAll();
   res.send(events);
+});
+
+router.get('/:eventId', AuthOptional, async (req, res) => {
+  const eventId = req.params.eventId;
+  if (!validator.isUUID(eventId)) {
+    res.status(400).send('Event ID must be a valid UUID.');
+    return;
+  }
+  const event = await getOne(eventId);
+  if (!event) {
+    res.sendStatus(404);
+    return;
+  }
+  res.send(event);
+});
+
+router.delete('/:eventId', AuthRequired, async (req, res) => {
+  const eventId = req.params.eventId;
+  if (!validator.isUUID(eventId)) {
+    res.status(400).send('Event ID must be a valid UUID.');
+    return;
+  }
+  const deletionSuccessful = await deleteOne(eventId);
+  if (!deletionSuccessful) {
+    res.sendStatus(404);
+    return;
+  }
+  res.sendStatus(200);
 });
 
 router.post('/', AuthRequired, async (req, res) => {

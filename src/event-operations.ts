@@ -1,17 +1,52 @@
-import { EventModel } from './db/models/event';
+import { Op } from 'sequelize';
 
+import { EventModel } from './db/models/event';
 import { Event, User } from './types';
 
 export async function getAll(): Promise<Event[]> {
   const events = await EventModel.findAll();
   return events.map((dbObj) => ({
-    createdBy: 'hi',
+    createdBy: dbObj.createdBy,
     description: dbObj.description,
-    end: new Date(),
+    end: dbObj.endDateTime ? dbObj.endDateTime : dbObj.endDate,
+    id: dbObj.id,
     labels: [],
-    start: new Date(),
+    start: dbObj.startDateTime ? dbObj.startDateTime : dbObj.startDate,
     title: dbObj.title,
   }));
+}
+
+export async function deleteOne(eventId: string): Promise<boolean> {
+  // TODO: More discrimination between 1 and other counts?
+  return (
+    (await EventModel.destroy({
+      where: {
+        id: {
+          [Op.eq]: eventId,
+        },
+      },
+    })) === 1
+  );
+}
+
+export async function getOne(eventId: string): Promise<Event | null> {
+  const record = await EventModel.findOne({
+    where: {
+      id: {
+        [Op.eq]: eventId,
+      },
+    },
+  });
+  if (!record) return null;
+  return {
+    createdBy: record.createdBy,
+    description: record.description,
+    end: record.endDate ? record.endDate : record.endDateTime,
+    id: record.id,
+    labels: [],
+    start: record.startDate ? record.startDate : record.startDateTime,
+    title: record.title,
+  };
 }
 
 export async function save(data: Event, user: User): Promise<EventModel> {
