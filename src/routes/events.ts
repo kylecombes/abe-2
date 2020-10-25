@@ -2,8 +2,9 @@ import express from 'express';
 import validator from 'validator';
 
 import { AuthOptional, AuthRequired } from '../auth';
-import { save, getAll, getOne, deleteOne } from '../event-operations';
-import { User } from '../types';
+import { save, getAll, getOne, deleteOne, patch } from '../event-operations';
+import { Event, User } from '../types';
+import { InternalError } from '../errors';
 
 const router = express.Router();
 
@@ -26,6 +27,23 @@ router.get('/:eventId', AuthOptional, async (req, res) => {
     return;
   }
   res.send(event);
+});
+
+router.patch('/:eventId', AuthRequired, async (req, res) => {
+  // TODO: Ensure req.body is actually an Event
+  const eventData = req.body as Event;
+  const eventId = req.params.eventId;
+  try {
+    await patch(eventId, eventData);
+    res.sendStatus(200);
+  } catch (error) {
+    if (error instanceof InternalError) {
+      res.status(error.httpResponseCode).send(error.forClient);
+    } else {
+      console.error(error);
+      res.sendStatus(500);
+    }
+  }
 });
 
 router.delete('/:eventId', AuthRequired, async (req, res) => {
