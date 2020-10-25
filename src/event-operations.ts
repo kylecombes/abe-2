@@ -1,7 +1,9 @@
 import { Op } from 'sequelize';
 
 import { EventModel } from './db/models/event';
-import { Event, User } from './types';
+import { InvalidIdError, NotFoundError } from './errors';
+import { ID, Event, User, EventWithoutId } from './types';
+import validator from 'validator';
 
 export async function getAll(): Promise<Event[]> {
   const events = await EventModel.findAll();
@@ -49,7 +51,7 @@ export async function getOne(eventId: string): Promise<Event | null> {
   };
 }
 
-export async function save(data: Event, user: User): Promise<EventModel> {
+export async function save(data: Event, user: User): Promise<Event> {
   const event = EventModel.build({
     createdBy: user.id,
     description: data.description,
@@ -59,5 +61,45 @@ export async function save(data: Event, user: User): Promise<EventModel> {
     startDateTime: typeof data.start === 'string' ? undefined : data.start,
     title: data.title,
   });
-  return event.save();
+  const savedRecord = await event.save();
+  return eventModelToEvent(savedRecord);
+}
+
+export async function patch(eventId: ID, data: EventWithoutId): Promise<Event> {
+  if (!validator.isUUID(eventId)) {
+    throw new InvalidIdError('The event ID specified is not a valid UUID.');
+  }
+  const event = await EventModel.findOne({
+    where: {
+      id: {
+        [Op.eq]: eventId,
+      },
+    },
+  });
+  if (!event) {
+    throw new NotFoundError(`Unable to find an event with the ID "${eventId}".`);
+  }
+  const updateObj: Partial<EventModel> = {
+    ...data,
+    endDate: typeof data.end === 'string' ? data.end : undefined,
+    startDate: typeof data.start === 'string' ? data.start : undefined,
+  };
+
+  await event.update(updateObj);
+  const savedRecord = await event.save();
+  // TODO: Journal event edit with user ID
+  return eventModelToEvent(savedRecord);
+}
+
+function eventModelToEvent(model: EventModel): Event {
+  return {
+    createdBy: model.createdBy,
+    description: model.description,
+    end: model.endDateTime || model.endDate,
+    id: model.id,
+    // TODO: Populate this
+    labels: [],
+    start: model.startDateTime || model.startDate,
+    title: model.title,
+  };
 }

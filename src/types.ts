@@ -1,4 +1,4 @@
-type ID = string;
+export type ID = string;
 type DateWithTime = Date;
 type DateOnly = string;
 
@@ -32,6 +32,8 @@ export interface Event {
   start: DateWithTime | DateOnly;
   title: string;
 }
+export type EventWithoutId = Omit<Event, 'id'>;
+export type EventWithId = EventWithoutId & NonNullable<Pick<Event, 'id'>>;
 
 export interface User {
   avatar?: string;
