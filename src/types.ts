@@ -35,6 +35,13 @@ export interface Event {
 export type EventWithoutId = Omit<Event, 'id'>;
 export type EventWithId = EventWithoutId & NonNullable<Pick<Event, 'id'>>;
 
+export interface Group {
+  description?: string;
+  id?: ID;
+  labels?: Label[];
+  name: string;
+}
+
 export interface User {
   avatar?: string;
   id: ID;
