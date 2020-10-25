@@ -1,13 +1,23 @@
 type ID = string;
 type DateWithTime = Date;
 type DateOnly = string;
-type Label = string;
 
 export interface RecurrenceRule {
   // TODO: Do this properly
   count?: number;
   interval?: number;
   until?: DateOnly;
+}
+
+export interface Label {
+  /** A long description of the label */
+  description?: string;
+  /** A UUID */
+  id: string;
+  /** The (short) name of the label */
+  name: string;
+  /** The ID of the parent label (if any) */
+  parent?: string;
 }
 
 export interface Event {
