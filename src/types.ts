@@ -42,9 +42,28 @@ export interface Group {
   name: string;
 }
 
+export interface GroupMembership {
+  group: Group;
+  role: Role;
+}
+
+export type Permission =
+  | 'GROUP_ADD_MEMBERS'
+  | 'GROUP_REMOVE_MEMBERS'
+  | 'GROUP_SET_MEMBER_PERMISSIONS'
+  | 'GROUP_ADD_EVENTS'
+  | 'GROUP_EDIT_OTHERS_EVENTS'
+  | 'GROUP_READ_EVENTS';
+
+export interface Role {
+  permissions: Permission[];
+}
+
 export interface User {
   avatar?: string;
   id: ID;
+  isSuperAdmin: boolean;
+  memberships?: GroupMembership[];
   name: {
     display?: string;
     first?: string;

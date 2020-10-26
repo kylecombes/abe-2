@@ -1,13 +1,16 @@
+import parseJson from 'parse-json';
 import { DataTypes, Model, Op, Optional, Sequelize } from 'sequelize';
-import { User } from '../../types';
+import { GroupMembership, User } from '../../types';
 
 interface UserModelAttributes {
   avatar?: string;
   connectedAccountId: string;
   displayName?: string;
   firstName?: string;
-  id: number;
+  id: string;
+  isSuperAdmin: boolean;
   lastName?: string;
+  memberships: string;
 }
 
 export class UserModel
@@ -17,8 +20,10 @@ export class UserModel
   public connectedAccountId!: string;
   public displayName?: string;
   public firstName?: string;
-  public id!: number;
+  public id!: string;
+  public isSuperAdmin!: boolean;
   public lastName?: string;
+  public memberships!: string;
 
   // Timestamps
   public readonly createdAt!: Date;
@@ -49,10 +54,16 @@ export function initializeTable(sequelize: Sequelize, force: boolean): Promise<U
         primaryKey: true,
         type: DataTypes.UUID,
       },
+      isSuperAdmin: {
+        allowNull: false,
+        defaultValue: false,
+        type: DataTypes.BOOLEAN,
+      },
       lastName: {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      memberships: DataTypes.STRING,
     },
     { modelName: 'User', sequelize },
   );
@@ -75,10 +86,16 @@ export async function findUserByConnectedAccountId(
   return {
     avatar: dbObj.avatar,
     id: dbObj.id,
+    isSuperAdmin: dbObj.isSuperAdmin,
+    memberships: membershipJsonToObj(dbObj.memberships),
     name: {
       display: dbObj.displayName,
       first: dbObj.firstName,
       last: dbObj.lastName,
     },
   };
+}
+
+function membershipJsonToObj(membershipJson: string): GroupMembership[] {
+  return parseJson(membershipJson);
 }
