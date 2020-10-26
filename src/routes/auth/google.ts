@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import GoogleStrategy from '../../auth/google';
 import { getEnvOrThrow } from '../../utils';
-import { getOrCreateUserByConnectedAccountId } from '../../user';
+import { getOrCreateUserByConnectedAccountId } from '../../user-operations';
 
 passport.use(GoogleStrategy);
 
@@ -22,9 +22,9 @@ router.get('/callback', async (req, res, next) => {
       res.sendStatus(404);
     } else {
       // Successful authentication
-      // TODO: Look up the user in the database and convert their Google ID into their DB ID
       const userData = await getOrCreateUserByConnectedAccountId(
         {
+          isSuperAdmin: false,
           name: {
             display: `${user.firstName} ${user.lastName}`,
             first: user.firstName as string,
