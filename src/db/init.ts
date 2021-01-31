@@ -2,6 +2,7 @@ import { Sequelize } from 'sequelize';
 import { initializeTable as initializeTagsTable } from './models/tag';
 import { initializeTable as initializeEventsTable } from './models/event';
 import { initializeTable as initializeUsersTable } from './models/user';
+import setupRelations from './relations';
 
 /**
  * Initializes a new database.
@@ -18,4 +19,6 @@ export default async function (sequelize: Sequelize, force = false): Promise<voi
   await initializeTagsTable(sequelize, force);
   await initializeEventsTable(sequelize, force);
   await initializeUsersTable(sequelize, force);
+
+  await setupRelations(sequelize);
 }
