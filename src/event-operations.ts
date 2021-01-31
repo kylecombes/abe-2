@@ -12,8 +12,8 @@ export async function getAll(): Promise<Event[]> {
     description: dbObj.description,
     end: dbObj.endDateTime ? dbObj.endDateTime : dbObj.endDate,
     id: dbObj.id,
-    labels: [],
     start: dbObj.startDateTime ? dbObj.startDateTime : dbObj.startDate,
+    tags: [],
     title: dbObj.title,
   }));
 }
@@ -45,8 +45,8 @@ export async function getOne(eventId: string): Promise<Event | null> {
     description: record.description,
     end: record.endDate ? record.endDate : record.endDateTime,
     id: record.id,
-    labels: [],
     start: record.startDate ? record.startDate : record.startDateTime,
+    tags: [],
     title: record.title,
   };
 }
@@ -98,8 +98,8 @@ function eventModelToEvent(model: EventModel): Event {
     end: model.endDateTime || model.endDate,
     id: model.id,
     // TODO: Populate this
-    labels: [],
     start: model.startDateTime || model.startDate,
+    tags: [],
     title: model.title,
   };
 }

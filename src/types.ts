@@ -9,14 +9,14 @@ export interface RecurrenceRule {
   until?: DateOnly;
 }
 
-export interface Label {
-  /** A long description of the label */
+export interface Tag {
+  /** A long description of the tag */
   description?: string;
   /** A UUID */
   id: string;
-  /** The (short) name of the label */
+  /** The (short) name of the tag */
   name: string;
-  /** The ID of the parent label (if any) */
+  /** The ID of the parent tag (if any) */
   parent?: string;
 }
 
@@ -26,10 +26,10 @@ export interface Event {
   end: DateWithTime | DateOnly;
   // Undefined if a new event that has not yet been saved
   id?: ID;
-  labels: Label[];
   location?: string;
   recurs?: RecurrenceRule;
   start: DateWithTime | DateOnly;
+  tags: Tag[];
   title: string;
 }
 export type EventWithoutId = Omit<Event, 'id'>;

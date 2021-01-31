@@ -1,19 +1,19 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
 
-interface LabelModelAttributes {
-  /** A long description of the label */
+interface TagModelAttributes {
+  /** A long description of the tag */
   description?: string;
   /** A UUID */
   id: string;
-  /** The (short) name of the label */
+  /** The (short) name of the tag */
   name: string;
-  /** The ID of the parent label (if any) */
+  /** The ID of the parent tag (if any) */
   parent?: string;
 }
 
-export class LabelModel
-  extends Model<LabelModelAttributes, Optional<LabelModelAttributes, 'id'>>
-  implements LabelModelAttributes {
+export class TagModel
+  extends Model<TagModelAttributes, Optional<TagModelAttributes, 'id'>>
+  implements TagModelAttributes {
   public description!: string;
   public id!: string;
   public name!: string;
@@ -24,9 +24,9 @@ export class LabelModel
   public readonly updatedAt!: Date;
 }
 
-export function initializeTable(sequelize: Sequelize, force: boolean): Promise<LabelModel> {
-  // Create the "labels" table
-  LabelModel.init(
+export function initializeTable(sequelize: Sequelize, force: boolean): Promise<TagModel> {
+  // Create the "tags" table
+  TagModel.init(
     {
       description: DataTypes.STRING,
       id: {
@@ -38,7 +38,7 @@ export function initializeTable(sequelize: Sequelize, force: boolean): Promise<L
       name: DataTypes.STRING,
       parent: DataTypes.UUID,
     },
-    { modelName: 'Label', sequelize },
+    { modelName: 'Tag', sequelize },
   );
-  return LabelModel.sync({ force });
+  return TagModel.sync({ force });
 }
