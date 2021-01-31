@@ -35,18 +35,6 @@ export interface Event {
 export type EventWithoutId = Omit<Event, 'id'>;
 export type EventWithId = EventWithoutId & NonNullable<Pick<Event, 'id'>>;
 
-export interface Group {
-  description?: string;
-  id?: ID;
-  labels?: Label[];
-  name: string;
-}
-
-export interface GroupMembership {
-  group: Group;
-  role: Role;
-}
-
 export type Permission =
   | 'GROUP_ADD_MEMBERS'
   | 'GROUP_REMOVE_MEMBERS'
@@ -63,7 +51,6 @@ export interface User {
   avatar?: string;
   id: ID;
   isSuperAdmin: boolean;
-  memberships?: GroupMembership[];
   name: {
     display?: string;
     first?: string;
