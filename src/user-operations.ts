@@ -45,7 +45,6 @@ export async function getOrCreateUserByConnectedAccountId(
     firstName: userInfo.name.first || '',
     isSuperAdmin: userInfo.isSuperAdmin,
     lastName: userInfo.name.last || '',
-    memberships: JSON.stringify(userInfo.memberships),
   }).save();
   return {
     ...userInfo,
@@ -85,8 +84,6 @@ export async function patch(userId: ID, data: Partial<User>): Promise<User> {
     firstName: data.name?.first,
     id: undefined,
     lastName: data.name?.last,
-    // TODO: Add some security protections here
-    memberships: JSON.stringify(data.memberships),
   };
 
   await user.update(updateObj);
@@ -99,7 +96,6 @@ function userModelToUser(user: UserModel): User {
   return {
     id: user.id,
     isSuperAdmin: user.isSuperAdmin,
-    memberships: JSON.parse(user.memberships),
     name: {
       display: user.displayName,
       first: user.firstName,

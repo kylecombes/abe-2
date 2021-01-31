@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize';
 import { initializeTable as initializeLabelsTable } from './models/label';
 import { initializeTable as initializeEventsTable } from './models/event';
-import { initializeTable as initializeGroupsTable } from './models/group';
 import { initializeTable as initializeUsersTable } from './models/user';
 
 /**
@@ -17,7 +16,6 @@ export default async function (sequelize: Sequelize, force = false): Promise<voi
 
   // Create the new tables
   await initializeLabelsTable(sequelize, force);
-  await initializeGroupsTable(sequelize, force);
   await initializeEventsTable(sequelize, force);
   await initializeUsersTable(sequelize, force);
 }
