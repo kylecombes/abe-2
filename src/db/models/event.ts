@@ -26,6 +26,11 @@ export class EventModel
   // Timestamps
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  public addTag!: (tag: string) => void;
+  public getTags!: () => Promise<unknown[]>;
+  public removeTag!: (tag: string) => void;
+  public setTags!: (tags: string[]) => void;
 }
 
 export function initializeTable(sequelize: Sequelize, force: boolean): Promise<EventModel> {

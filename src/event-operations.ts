@@ -2,20 +2,22 @@ import { Op } from 'sequelize';
 
 import { EventModel } from './db/models/event';
 import { InvalidIdError, NotFoundError } from './errors';
-import { ID, Event, User, EventWithoutId } from './types';
+import { ID, Event, User, EventWithoutId, Tag } from './types';
 import validator from 'validator';
 
 export async function getAll(): Promise<Event[]> {
   const events = await EventModel.findAll();
-  return events.map((dbObj) => ({
-    createdBy: dbObj.createdBy,
-    description: dbObj.description,
-    end: dbObj.endDateTime ? dbObj.endDateTime : dbObj.endDate,
-    id: dbObj.id,
-    start: dbObj.startDateTime ? dbObj.startDateTime : dbObj.startDate,
-    tags: [],
-    title: dbObj.title,
-  }));
+  return Promise.all(
+    events.map(async (dbObj) => ({
+      createdBy: dbObj.createdBy,
+      description: dbObj.description,
+      end: dbObj.endDateTime ? dbObj.endDateTime : dbObj.endDate,
+      id: dbObj.id,
+      start: dbObj.startDateTime ? dbObj.startDateTime : dbObj.startDate,
+      tags: (await dbObj.getTags()) as Tag[],
+      title: dbObj.title,
+    })),
+  );
 }
 
 export async function deleteOne(eventId: string): Promise<boolean> {
@@ -51,7 +53,11 @@ export async function getOne(eventId: string): Promise<Event | null> {
   };
 }
 
-export async function save(data: Event, user: User): Promise<Event> {
+export async function save(
+  data: Omit<Event, 'tags'> & { tags: string[] },
+  user: User,
+): Promise<Event> {
+  // TODO: Ensure all required fields are present and of the correct type
   const event = EventModel.build({
     createdBy: user.id,
     description: data.description,
@@ -61,6 +67,7 @@ export async function save(data: Event, user: User): Promise<Event> {
     startDateTime: typeof data.start === 'string' ? undefined : data.start,
     title: data.title,
   });
+  event.setTags(data.tags);
   const savedRecord = await event.save();
   return eventModelToEvent(savedRecord);
 }
