@@ -354,6 +354,13 @@ aria-query@^4.2.2:
     "@babel/runtime" "^7.10.2"
     "@babel/runtime-corejs3" "^7.10.2"
 
+axios@^0.21.1:
+  version "0.21.1"
+  resolved "https://indigoag.jfrog.io/indigoag/api/npm/npm/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha1-IlY0gZYvTWvemnbVFu8OXTwJsrg=
+  dependencies:
+    follow-redirects "^1.10.0"
+
 chalk@^2.0.0:
   version "2.4.2"
   resolved "https://indigoag.jfrog.io/indigoag/api/npm/npm/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
@@ -467,6 +474,11 @@ execa@^5.0.0:
     onetime "^5.1.2"
     signal-exit "^3.0.3"
     strip-final-newline "^2.0.0"
+
+follow-redirects@^1.10.0:
+  version "1.13.2"
+  resolved "https://indigoag.jfrog.io/indigoag/api/npm/npm/follow-redirects/-/follow-redirects-1.13.2.tgz#dd73c8effc12728ba5cf4259d760ea5fb83e3147"
+  integrity sha1-3XPI7/wScoulz0JZ12DqX7g+MUc=
 
 fsevents@^2.2.0:
   version "2.3.1"

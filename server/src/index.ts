@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import https from 'https';
 import fs from 'fs';
@@ -21,6 +22,12 @@ app.use(bodyParser.json());
 
 // Set up routes (REST API, auth, etc)
 app.use('/', router);
+
+// Configure cross-origin resource sharing (CORS)
+app.use(cors({
+  optionsSuccessStatus: 200,
+  origin: true,
+}));
 
 https
   .createServer(

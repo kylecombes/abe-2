@@ -1,11 +1,12 @@
 import React from 'react';
+import { Calendar } from './Calendar';
 
 interface AppProps {}
 
 function App({}: AppProps) {
   return (
     <div className="App">
-      Yay, an app!
+      <Calendar/>
     </div>
   );
 }

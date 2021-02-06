@@ -12,6 +12,8 @@ const router = express.Router();
 router.get('/', AuthOptional, async (req, res) => {
   // TODO: Use req.user to get "private" results
   const events = await getAll();
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Hello-There', 'Kyle');
   res.send(events);
 });
 
