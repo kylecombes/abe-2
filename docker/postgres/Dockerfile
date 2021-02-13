@@ -1,0 +1,11 @@
+FROM postgres
+
+MAINTAINER Kyle Combes
+
+USER postgres
+
+ENV POSTGRES_PASSWORD ${POSTGRES_PASSWORD}
+ENV POSTGRES_DB ${POSTGRES_DB}
+
+# Expose the PostgreSQL database port
+EXPOSE 5432
