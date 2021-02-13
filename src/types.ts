@@ -22,3 +22,15 @@ export interface Event {
   start: DateWithTime | DateOnly;
   title: string;
 }
+
+export interface User {
+  avatar?: string;
+  id: ID;
+  name: {
+    display?: string;
+    first?: string;
+    last?: string;
+  };
+}
+
+export type NewOrExistingUser = Omit<User, 'id'> & Partial<Pick<User, 'id'>>;

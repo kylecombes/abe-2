@@ -1,9 +1,10 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import https from 'https';
 import fs from 'fs';
 
 import { initializeAuth } from './auth';
-import { connect } from './event-operations';
+import { connect, init as initDb } from './db';
 import router from './routes';
 
 const app = express();
@@ -14,6 +15,9 @@ app.get('/', (req, res) => {
 
 // Set up authentication and authorization
 initializeAuth(app);
+
+// Parse JSON request payloads automatically
+app.use(bodyParser.json());
 
 // Set up routes (REST API, auth, etc)
 app.use('/', router);
@@ -28,6 +32,7 @@ https
   )
   .listen(port, async () => {
     console.log(`server is listening on ${port}`);
+    await initDb();
     await connect();
     console.log('Connected to database!');
   });
