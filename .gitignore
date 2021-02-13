@@ -16,3 +16,9 @@ build/
 .npmrc
 .idea
 
+
+# misc
+.DS_Store
+
+# Vercel
+.vercel

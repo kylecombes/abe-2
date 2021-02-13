@@ -8,7 +8,7 @@ import { connect, init as initDb } from './db';
 import router from './routes';
 
 const app = express();
-const port = 3000;
+const port = 1234;
 app.get('/', (req, res) => {
   res.send('The code hath compileth!');
 });
