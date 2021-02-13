@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { Sequelize, Model, DataTypes, Optional } from 'sequelize';
 
 import { Event } from './types';
 
@@ -18,27 +18,68 @@ const sequelize = new Sequelize(
   `postgres://${dbUsername}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`,
 );
 
-class EventModel extends Model {}
+interface EventModelAttributes {
+  description?: string;
+  id: number;
+  title: string;
+}
+
+class EventModel
+  extends Model<EventModelAttributes, Optional<EventModelAttributes, 'id'>>
+  implements EventModelAttributes {
+  public id!: number;
+  public description!: string;
+  public title!: string;
+
+  // Timestamps
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
 EventModel.init(
   {
     description: DataTypes.STRING,
-    title: DataTypes.STRING,
+    id: {
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.UUID,
+    },
+    title: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
   },
-  { modelName: 'event', sequelize },
+  { modelName: 'Event', sequelize },
 );
 
 export async function connect(): Promise<void> {
   return sequelize.authenticate();
 }
 
-export function getAll(): Event[] {
-  return [];
+export async function init() {
+  await sequelize.drop();
+  await EventModel.sync();
+}
+
+export async function getAll(): Promise<Event[]> {
+  const events = await EventModel.findAll();
+  return events.map((dbObj) => ({
+    createdBy: 'hi',
+    description: dbObj.description,
+    end: new Date(),
+    labels: [],
+    start: new Date(),
+    title: dbObj.title,
+  }));
 }
 
 export async function close(): Promise<void> {
   return sequelize.close();
 }
 
-// export function save(event: Event) {
-//
-// }
+export async function save(data: Event): Promise<EventModel> {
+  const event = EventModel.build({
+    description: data.description,
+    title: data.title,
+  });
+  return event.save();
+}
