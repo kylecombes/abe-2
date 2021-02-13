@@ -24,13 +24,10 @@
   "devDependencies": {
     "@types/express": "^4.17.8",
     "@types/validator": "^13.1.0",
-    "@typescript-eslint/eslint-plugin": "^4.4.1",
-    "@typescript-eslint/parser": "^4.4.1",
     "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",
     "eslint": "^7.11.0",
-    "eslint-config-prettier": "^6.13.0",
-    "eslint-plugin-typescript-sort-keys": "^1.5.0",
+    "eslint-config-abe": "file:../shared/eslint-config/",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.2",
     "nodemon": "^2.0.5",
@@ -43,6 +40,13 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
+  },
+  "eslintConfig": {
+    "root": true,
+    "ignorePatterns": [
+      "dist"
+    ],
+    "extends": "eslint-config-abe"
   },
   "husky": {
     "hooks": {
