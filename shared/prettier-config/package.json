@@ -1,0 +1,9 @@
+{
+  "name": "prettier-config-abe",
+  "version": "0.0.0",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+    "prettier": "^2.2.1"
+  }
+}

@@ -31,7 +31,7 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.4.2",
     "nodemon": "^2.0.5",
-    "prettier": "2.1.2",
+    "prettier-config-abe": "file:../shared/prettier-config/",
     "sequelize": "^6.3.5",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
@@ -48,6 +48,7 @@
     ],
     "extends": "eslint-config-abe"
   },
+  "prettier": "prettier-config-abe",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
