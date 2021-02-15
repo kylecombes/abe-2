@@ -1184,7 +1184,7 @@ escape-string-regexp@^1.0.5:
   resolved "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
 
-"eslint-config-abe@file:../shared/eslint-config":
+"eslint-config-abe@file:../tools/eslint-config":
   version "0.0.0"
   dependencies:
     "@typescript-eslint/eslint-plugin" "^4.15.0"
@@ -2449,7 +2449,7 @@ prelude-ls@^1.2.1:
   resolved "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-"prettier-config-abe@file:../shared/prettier-config":
+"prettier-config-abe@file:../tools/prettier-config":
   version "0.0.0"
   dependencies:
     prettier "^2.2.1"

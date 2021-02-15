@@ -20,8 +20,8 @@
   "devDependencies": {
     "@types/node": "^14.14.27",
     "@types/react": "^17.0.2",
-    "eslint-config-abe": "file:../shared/eslint-config/",
-    "prettier-config-abe": "file:../shared/prettier-config/"
+    "eslint-config-abe": "file:../tools/eslint-config/",
+    "prettier-config-abe": "file:../tools/prettier-config/"
   },
   "eslintConfig": {
     "root": true,
