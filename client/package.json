@@ -9,21 +9,35 @@
     "start": "next start"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "husky": "^5.0.9",
     "lint-staged": "^10.5.4",
     "next": "10.0.6",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "typescript": "^4.1.5"
   },
   "devDependencies": {
-    "prettier": "2.2.1"
+    "@types/node": "^14.14.27",
+    "@types/react": "^17.0.2",
+    "eslint-config-abe": "file:../shared/eslint-config/",
+    "prettier-config-abe": "file:../shared/prettier-config/"
   },
+  "eslintConfig": {
+    "root": true,
+    "ignorePatterns": [
+      "dist"
+    ],
+    "extends": "eslint-config-abe"
+  },
+  "prettier": "prettier-config-abe",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --fix",
     "**/*": "prettier --write --ignore-unknown"
   }
 }

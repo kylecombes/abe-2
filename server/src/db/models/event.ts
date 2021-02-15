@@ -1,4 +1,5 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
+import { Tag } from '../../types';
 
 interface EventModelAttributes {
   createdBy: string;
@@ -28,7 +29,7 @@ export class EventModel
   public readonly updatedAt!: Date;
 
   public addTag!: (tag: string) => void;
-  public getTags!: () => Promise<unknown[]>;
+  public getTags!: () => Promise<Tag[]>;
   public removeTag!: (tag: string) => void;
   public setTags!: (tags: string[]) => void;
 }

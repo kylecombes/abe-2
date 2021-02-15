@@ -48,7 +48,7 @@ export async function getOne(eventId: string): Promise<Event | null> {
     end: record.endDate ? record.endDate : record.endDateTime,
     id: record.id,
     start: record.startDate ? record.startDate : record.startDateTime,
-    tags: [],
+    tags: await record.getTags(),
     title: record.title,
   };
 }

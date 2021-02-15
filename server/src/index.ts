@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import https from 'https';
 import fs from 'fs';
+import cors from 'cors';
 
 import { initializeAuth } from './auth';
 import { connect, init as initDb } from './db';
@@ -15,6 +16,9 @@ app.get('/', (req, res) => {
 
 // Set up authentication and authorization
 initializeAuth(app);
+
+// TODO: Configure this to be more secure
+app.use(cors());
 
 // Parse JSON request payloads automatically
 app.use(bodyParser.json());

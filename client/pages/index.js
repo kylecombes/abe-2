@@ -1,4 +1,6 @@
 import Head from 'next/head';
+import { Calendar} from "../components/calendar";
+
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
@@ -9,9 +11,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+       <Calendar />
       </main>
     </div>
   );
