@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import GoogleStrategy from '../../auth/google';
 import { getEnvOrThrow } from '../../utils';
 import { getOrCreateUserByConnectedAccountId } from '../../user-operations';
+import { AuthJWT } from '../../../../types/auth';
 
 passport.use(GoogleStrategy);
 
@@ -35,7 +36,7 @@ router.get('/callback', async (req, res, next) => {
       );
 
       // Create and sign a JWT with the user's ID
-      const jwtPayload = {
+      const jwtPayload: AuthJWT = {
         user: {
           displayName: userData.name.display,
           id: userData.id,

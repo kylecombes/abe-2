@@ -1,12 +1,7 @@
 import * as React from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Event } from '../../../../server/src/types';
-
-async function getEvent(eventId: string) {
-  const response = await axios.get(`https://lvh.me:1234/events/${eventId}`);
-  return response.data as Event;
-}
+import { getEvent } from '../../../api/events';
 
 export default function EditEventPage() {
   const { query } = useRouter();

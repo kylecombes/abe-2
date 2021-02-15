@@ -16,6 +16,9 @@ const {
 
 const sequelize = new Sequelize(
   `postgres://${dbUsername}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`,
+  {
+    logging: false,
+  },
 );
 
 export function init(): Promise<void> {
