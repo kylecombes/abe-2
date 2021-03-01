@@ -13,11 +13,13 @@
     "husky": "^5.0.9",
     "lint-staged": "^10.5.4",
     "next": "10.0.6",
+    "next-auth": "^3.6.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "typescript": "^4.1.5"
   },
   "devDependencies": {
+    "@types/next-auth": "^3.1.24",
     "@types/node": "^14.14.27",
     "@types/react": "^17.0.2",
     "eslint-config-abe": "file:../tools/eslint-config/",
