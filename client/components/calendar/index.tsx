@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Event } from '../../../types/api';
 
 const getEvents = async () => {
-  const response = await axios.get('https://lvh.me:1234/events');
+  const response = await axios.get('/api/events');
   return response.data;
 }
 
