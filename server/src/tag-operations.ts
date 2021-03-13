@@ -1,7 +1,7 @@
 import { Op } from 'sequelize';
 
 import { TagModel } from './db/models/tag';
-import { Tag } from './types';
+import { Tag } from '../../types/api';
 
 export async function getAll(): Promise<Tag[]> {
   return await TagModel.findAll();

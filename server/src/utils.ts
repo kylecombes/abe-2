@@ -7,7 +7,9 @@
 export function getEnvOrThrow(varName: string): string {
   const envVar = process.env[varName];
   if (!envVar) {
-    throw `Could not resolve a value for the environment variable ${varName}. Are you sure it is defined?`;
+    throw new Error(
+      `Could not resolve a value for the environment variable ${varName}. Are you sure it is defined?`,
+    );
   }
   return envVar;
 }

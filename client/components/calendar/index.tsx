@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-import { Event } from '../../../server/src/types';
+import { Event } from '../../../types/api';
 
 const getEvents = async () => {
   const response = await axios.get('https://lvh.me:1234/events');

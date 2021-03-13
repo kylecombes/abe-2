@@ -1,5 +1,5 @@
 import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
-import { Tag } from '../../types';
+import { Tag } from '../../../../types/api';
 
 interface EventModelAttributes {
   createdBy: string;

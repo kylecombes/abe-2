@@ -1,8 +1,9 @@
 import { Op } from 'sequelize';
 import { findUserByConnectedAccountId, UserModel } from './db/models/user';
-import { ID, NewOrExistingUser, User } from './types';
+import { ID } from '../../types/api';
 import validator from 'validator';
 import { InvalidIdError, NotFoundError } from './errors';
+import { NewOrExistingUser, User } from './types';
 
 interface ConnectedAccount {
   accountId: string;

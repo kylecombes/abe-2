@@ -3,8 +3,9 @@ import validator from 'validator';
 
 import { AuthOptional, AuthRequired } from '../auth';
 import { save, getAll, getOne, deleteOne, patch } from '../event-operations';
-import { Event, User } from '../types';
+import { Event } from '../../../types/api';
 import { InternalError } from '../errors';
+import { User } from '../types';
 
 const router = express.Router();
 

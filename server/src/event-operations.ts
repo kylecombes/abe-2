@@ -2,8 +2,9 @@ import { Op } from 'sequelize';
 
 import { EventModel } from './db/models/event';
 import { InvalidIdError, NotFoundError } from './errors';
-import { ID, Event, User, EventWithoutId, Tag } from './types';
+import { ID, Event, EventWithoutId, Tag } from '../../types/api';
 import validator from 'validator';
+import { User } from './types';
 
 export async function getAll(): Promise<Event[]> {
   const events = await EventModel.findAll();
