@@ -11,5 +11,3 @@ export function getEnvOrThrow(varName: string): string {
   }
   return envVar;
 }
-
-export const LIST_DELIMITER = ';';

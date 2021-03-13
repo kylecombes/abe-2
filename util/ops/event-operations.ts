@@ -1,8 +1,8 @@
 import { Op } from 'sequelize';
 
-import { EventModel } from './db/models/event';
-import { InvalidIdError, NotFoundError } from './errors';
-import { ID, Event, User, EventWithoutId, Tag } from './types';
+import { EventModel } from '../db/models/event';
+import { InvalidIdError, NotFoundError } from '../errors';
+import { ID, Event, User, EventWithoutId, Tag } from '../types';
 import validator from 'validator';
 
 export async function getAll(): Promise<Event[]> {
