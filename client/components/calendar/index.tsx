@@ -5,17 +5,16 @@ import { Event } from '../../../types/api';
 const getEvents = async () => {
   const response = await axios.get('/api/events');
   return response.data;
-}
+};
 
 export const Calendar = () => {
-
   const [events, setEvents] = React.useState<Event[] | null>(null);
   React.useEffect(() => {
     getEvents().then(setEvents);
-  })
+  }, []);
 
   if (events === null) {
-    return <h1>Loading...</h1>
+    return <h1>Loading...</h1>;
   }
 
   return (
@@ -24,5 +23,5 @@ export const Calendar = () => {
         <li>{event.title}</li>
       ))}
     </ul>
-  )
-}
+  );
+};

@@ -1,7 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import https from 'https';
-import fs from 'fs';
 import cors from 'cors';
 
 import { initializeAuth } from './auth';
@@ -26,17 +24,9 @@ app.use(bodyParser.json());
 // Set up routes (REST API, auth, etc)
 app.use('/', router);
 
-https
-  .createServer(
-    {
-      cert: fs.readFileSync('server.cert'),
-      key: fs.readFileSync('server.key'),
-    },
-    app,
-  )
-  .listen(port, async () => {
-    console.log(`server is listening on ${port}`);
-    await initDb();
-    await connect();
-    console.log('Connected to database!');
-  });
+app.listen(port, async () => {
+  console.log(`server is listening on ${port}`);
+  await initDb();
+  await connect();
+  console.log('Connected to database!');
+});

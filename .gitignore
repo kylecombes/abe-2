@@ -16,6 +16,8 @@ build/
 .npmrc
 .idea
 
+# Logs
+*.log
 
 # misc
 .DS_Store
