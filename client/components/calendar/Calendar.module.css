@@ -1,0 +1,8 @@
+.Calendar {
+    display: flex;
+    flex-grow: 1;
+}
+
+.ReactBigCalendar {
+    flex-grow: 1;
+}

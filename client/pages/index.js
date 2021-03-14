@@ -12,9 +12,7 @@ export default function Home() {
       </Head>
 
       <Sidebar/>
-      <main>
-       <Calendar />
-      </main>
+     <Calendar />
     </div>
   );
 }
