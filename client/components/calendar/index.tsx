@@ -1,5 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 import { Event } from '../../../types/api';
 
 const getEvents = async () => {
@@ -20,7 +21,7 @@ export const Calendar = () => {
   return (
     <ul>
       {events.map((event) => (
-        <li>{event.title}</li>
+        <li><Link href={`/events/${event.id}`}>{event.title}</Link></li>
       ))}
     </ul>
   );
