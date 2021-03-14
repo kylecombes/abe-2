@@ -1,15 +1,20 @@
 import * as React from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
+import { makeApiRequest } from '../../../util/api';
 import { Event } from '../../../../types/api';
+import { TagList } from '../../../components/TagList/TagList';
 
-async function getEvent(eventId: string) {
-  const response = await axios.get(`https://lvh.me:1234/events/${eventId}`);
-  return response.data as Event;
+async function getEvent(eventId: string): Promise<Event> {
+  return await makeApiRequest(`/events/${eventId}`);
+}
+
+async function deleteEvent(eventId: string): Promise<boolean> {
+  const response = await makeApiRequest(`/events/${eventId}`, 'delete');
+  return response.status === 200;
 }
 
 export default function EditEventPage() {
-  const { query } = useRouter();
+  const { push, query } = useRouter();
   const { id } = query;
 
   const [eventData, setEventData] = React.useState<Event>();
@@ -26,6 +31,10 @@ export default function EditEventPage() {
     return <h1>Loading...</h1>;
   }
 
+  const handleDeleteButtonClick = () => {
+    deleteEvent(eventData.id).then(() => push('/'));
+  };
+
   return (
     <div>
       <h1>{eventData.title}</h1>
@@ -33,10 +42,9 @@ export default function EditEventPage() {
       <p>{eventData.description}</p>
       <div>
         <h2>Tags:</h2>
-        <ul>
-          {eventData.tags.map((tag) => <li>{tag.name}</li>)}
-        </ul>
+        <TagList tags={eventData.tags}/>
       </div>
+      <button onClick={handleDeleteButtonClick}>Delete</button>
     </div>
   )
 }
