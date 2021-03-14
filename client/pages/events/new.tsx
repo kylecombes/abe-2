@@ -1,25 +1,51 @@
 import * as React from 'react';
-import { Event, ID } from '../../../types/api';
+import { Event, ID, Tag } from '../../../types/api';
 import { DateTimeInput, FormInput, FormTextarea } from '../../components/forms';
 import { makeApiRequest } from '../../util/api';
+import { TagList } from '../../components/TagList/TagList';
 
 interface NewEvent extends Pick<Event, 'description' | 'end' | 'location' | 'start' | 'title'> {
-  tags: ID[];
+  tags: Set<ID>;
 }
 
 async function saveNewEvent(data: NewEvent) {
-  await makeApiRequest('/events', 'post', data);
+  const event = {
+    ...data,
+    tags: Array.from(data.tags),
+  };
+  await makeApiRequest('/events', 'post', event);
+}
+
+async function getAllTags(): Promise<Tag[]> {
+  return await makeApiRequest('/tags');
 }
 
 export default function NewEventPage() {
+  const [allTags, setAllTags] = React.useState<Tag[] | undefined>();
+  React.useEffect(() => {
+    getAllTags().then((tags) => {
+      setAllTags(tags);
+    });
+  }, []);
+
   const [eventData, setEventData] = React.useState<NewEvent>({
     description: '',
     end: new Date(),
     location: '',
     start: new Date(),
-    tags: [],
+    tags: new Set(),
     title: '',
   });
+
+  const handleTagClick = (tag: Tag) => {
+    const tags = new Set(eventData.tags);
+    if (tags.has(tag.id)) {
+      tags.delete(tag.id);
+    } else {
+      tags.add(tag.id);
+    }
+    setEventData({...eventData, tags});
+  };
 
   return (
     <div>
@@ -51,6 +77,9 @@ export default function NewEventPage() {
           onChange={(end) => setEventData({ ...eventData, end })}
           value={eventData.end}
         />
+      )}
+      {allTags && (
+      <TagList onTagClick={handleTagClick} selectedTags={eventData.tags} tags={allTags} />
       )}
       <button onClick={() => saveNewEvent(eventData)}>Save</button>
     </div>

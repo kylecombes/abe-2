@@ -1,0 +1,23 @@
+.TagList {
+  display: flex;
+}
+
+.Tag {
+  margin: 4px;
+  padding: 4px 8px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  transition: background-color 200ms;
+}
+
+.Tag[aria-selected] {
+  cursor: pointer;
+}
+
+.Tag[aria-selected]:hover {
+  background-color: lightblue;
+}
+
+.Tag[aria-selected='true'] {
+  background-color: aqua;
+}
