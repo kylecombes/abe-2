@@ -7,7 +7,6 @@ import getDay from 'date-fns/getDay'
 import { Calendar as ReactBigCalendar, dateFnsLocalizer } from 'react-big-calendar';
 import { useRouter } from 'next/router';
 import { Event } from '../../../types/api';
-import { makeApiRequest } from '../../util/api';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import styles from './Calendar.module.css';
@@ -22,16 +21,12 @@ const localizer = dateFnsLocalizer({
   startOfWeek,
 });
 
-const getEvents = async () => {
-  return await makeApiRequest('/events');
-};
+interface Props {
+  events: Event[];
+}
 
-export const Calendar = () => {
+export const Calendar = ({ events }: Props) => {
   const router = useRouter();
-  const [events, setEvents] = React.useState<Event[] | null>(null);
-  React.useEffect(() => {
-    getEvents().then(setEvents);
-  }, []);
 
   if (events === null) {
     return <h1>Loading...</h1>;

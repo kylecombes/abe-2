@@ -9,8 +9,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/client": "^3.3.21",
     "axios": "^0.21.1",
     "date-fns": "^2.19.0",
+    "graphql": "^15.5.1",
     "husky": "^5.0.9",
     "lint-staged": "^10.5.4",
     "lodash.uniqueid": "^4.0.1",
