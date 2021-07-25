@@ -1,9 +1,36 @@
 import * as React from 'react';
+import { GetServerSidePropsResult } from 'next';
 import { Event, ID, Tag } from '../../../types/api';
 import { DateTimeInput, FormInput, FormTextarea } from '../../components/forms';
 import { TagList } from '../../components/TagList/TagList';
-import { GetServerSidePropsResult } from 'next';
+import client from '../../apollo-client';
+import { AddNewEventMutation } from '../../graphql/pages/events/new';
+import {
+  AddNewEventMutation as AddNewEventMutationShape,
+  AddNewEventMutationVariables,
+} from '../../graphql/pages/events/__generated__/AddNewEventMutation';
 
+async function saveNewEvent(eventData: NewEvent): Promise<void> {
+  const { data } = await client.mutate<AddNewEventMutationShape, AddNewEventMutationVariables>({
+    mutation: AddNewEventMutation,
+    variables: {
+      description: eventData.description,
+      title: eventData.title,
+      whenWithTimes: {
+        end: {
+          inclusive: false,
+          value: eventData.end,
+        },
+        start: {
+          inclusive: false,
+          value: eventData.start,
+        },
+      },
+    },
+  });
+
+  alert(JSON.stringify(data));
+}
 interface NewEvent extends Pick<Event, 'description' | 'end' | 'location' | 'start' | 'title'> {
   tags: Set<ID>;
 }
@@ -74,7 +101,7 @@ export default function NewEventPage({ allTags }: NewEventPageProps): React.Reac
       {allTags && (
         <TagList onTagClick={handleTagClick} selectedTags={eventData.tags} tags={allTags} />
       )}
-      <button onClick={() => alert(JSON.stringify(eventData))}>Save</button>
+      <button onClick={() => saveNewEvent(eventData)}>Save</button>
     </div>
   );
 }
