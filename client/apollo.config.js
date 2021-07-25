@@ -1,6 +1,6 @@
 module.exports = {
   client: {
-    includes: ['./pages/**'],
+    includes: ['./graphql/**'],
     service: {
       localSchemaFile: './schema.json',
       name: 'ABE 2 GraphQL',

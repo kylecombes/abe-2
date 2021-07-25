@@ -1,0 +1,4 @@
+This folder is necessary because Next.js won't allow storing generated type
+files in /pages (the build will fail). Ideally these files would just be stored
+alongside their consuming components in /pages, but alas, such a practice
+is not possible.

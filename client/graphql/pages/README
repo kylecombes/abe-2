@@ -1,0 +1,5 @@
+This directory should map 1:1 to the pages in /pages.
+
+For example, the mutations and queries for the page /pages/events/[id].tsx should
+be defined in the file /graphql/pages/events/[id].ts (with the generated types
+ending up in /graphql/pages/events/__generated__).
