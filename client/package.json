@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "apollo:schema:download": "apollo client:download-schema --endpoint=http://localhost:5000/graphql",
+    "apollo:schema:types": "apollo client:codegen --target=typescript",
     "dev": "next dev",
     "build": "next build",
     "lint:prettier:fix": "prettier --write .",
@@ -10,6 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.21",
+    "apollo": "^2.33.4",
     "axios": "^0.21.1",
     "date-fns": "^2.19.0",
     "graphql": "^15.5.1",
