@@ -1,33 +1,26 @@
 import * as React from 'react';
 import { Event, ID, Tag } from '../../../types/api';
 import { DateTimeInput, FormInput, FormTextarea } from '../../components/forms';
-import { makeApiRequest } from '../../util/api';
 import { TagList } from '../../components/TagList/TagList';
+import { GetServerSidePropsResult } from 'next';
 
 interface NewEvent extends Pick<Event, 'description' | 'end' | 'location' | 'start' | 'title'> {
   tags: Set<ID>;
 }
 
-async function saveNewEvent(data: NewEvent) {
-  const event = {
-    ...data,
-    tags: Array.from(data.tags),
+export async function getServerSideProps(): Promise<GetServerSidePropsResult<NewEventPageProps>> {
+  return {
+    props: {
+      allTags: [],
+    },
   };
-  await makeApiRequest('/events', 'post', event);
 }
 
-async function getAllTags(): Promise<Tag[]> {
-  return await makeApiRequest('/tags');
+interface NewEventPageProps {
+  allTags: Tag[];
 }
 
-export default function NewEventPage() {
-  const [allTags, setAllTags] = React.useState<Tag[] | undefined>();
-  React.useEffect(() => {
-    getAllTags().then((tags) => {
-      setAllTags(tags);
-    });
-  }, []);
-
+export default function NewEventPage({ allTags }: NewEventPageProps): React.ReactElement {
   const [eventData, setEventData] = React.useState<NewEvent>({
     description: '',
     end: new Date(),
@@ -44,7 +37,7 @@ export default function NewEventPage() {
     } else {
       tags.add(tag.id);
     }
-    setEventData({...eventData, tags});
+    setEventData({ ...eventData, tags });
   };
 
   return (
@@ -79,9 +72,9 @@ export default function NewEventPage() {
         />
       )}
       {allTags && (
-      <TagList onTagClick={handleTagClick} selectedTags={eventData.tags} tags={allTags} />
+        <TagList onTagClick={handleTagClick} selectedTags={eventData.tags} tags={allTags} />
       )}
-      <button onClick={() => saveNewEvent(eventData)}>Save</button>
+      <button onClick={() => alert(JSON.stringify(eventData))}>Save</button>
     </div>
   );
 }
