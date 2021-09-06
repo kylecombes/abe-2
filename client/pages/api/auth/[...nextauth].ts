@@ -22,6 +22,9 @@ export default NextAuth({
       return token;
     },
   },
+  jwt: {
+    secret: process.env.JWT_SECRET,
+  },
   // Optional SQL or MongoDB database to persist users
   // database: process.env.DATABASE_URL,
   providers: [
@@ -32,4 +35,7 @@ export default NextAuth({
     }),
   ],
   secret: process.env.SECRET,
+  session: {
+    jwt: true,
+  },
 });
