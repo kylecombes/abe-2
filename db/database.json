@@ -2,6 +2,8 @@
   "dev": {
     "database": "calendar_dev",
     "driver": "pg",
-    "host": "localhost"
+    "host": "localhost",
+    "username": "postgres",
+    "password": "asupersecurepassword"
   }
 }
